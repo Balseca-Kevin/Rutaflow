@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10253c">
+  <meta name="description" content="RutaFlow - Solicitudes de cambio para reservas de viajes en bus.">
+  <title>RutaFlow | Control de cambios</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/updated.css">
+  <link rel="stylesheet" href="assets/rfc.css">
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <main id="entryScreen" class="entry-screen">
+    <div class="entry-layout">
+      <section class="entry-intro">
+        <div class="brand entry-brand"><div class="brand-icon" aria-hidden="true">🚌</div><div><strong>RutaFlow<span class="brand-dot">.</span></strong><small>GESTIÓN DE CAMBIOS</small></div></div>
+        <div class="entry-copy"><span class="entry-overline">SISTEMA DE RESERVAS DE BUSES</span><h1>Tu opinión puede mejorar el próximo viaje.</h1><p>Solicita cambios en nuestra plataforma de reservas, documenta mejoras técnicas y permite que el comité tome decisiones informadas.</p>
+          <div class="entry-flow"><div><b>01</b><span>El usuario envía su solicitud</span></div><div><b>02</b><span>El comité revisa el reporte</span></div><div><b>03</b><span>Se aprueba o rechaza el cambio</span></div></div>
+        </div><span class="entry-footer">Prototipo académico · Datos locales de demostración</span>
+      </section>
+      <section class="entry-access" aria-labelledby="entryTitle">
+        <span class="eyebrow">BIENVENIDO</span><h2 id="entryTitle">¿Cómo deseas ingresar?</h2><p class="entry-subtitle">No necesitas crear una cuenta para solicitar un cambio como pasajero.</p>
+        <button type="button" class="entry-passenger" id="guestButton"><span class="entry-option-icon">◉</span><span><strong>Continuar como pasajero</strong><small>Solicitud de cambio sin usuario ni contraseña</small></span><span class="entry-chevron">→</span></button>
+        <div class="access-separator"><span>ACCESO PARA PERSONAL AUTORIZADO</span></div>
+        <form id="loginForm" class="login-form" autocomplete="off">
+          <div class="field"><label for="loginUser">Usuario</label><input id="loginUser" autocomplete="username" maxlength="60" placeholder="desarrollador o comite" required></div>
+          <div class="field"><label for="loginPassword">Contraseña</label><input id="loginPassword" type="password" autocomplete="current-password" maxlength="60" placeholder="Escribe tu contraseña" required></div>
+          <p id="loginError" role="alert" class="login-error" hidden>Credenciales incorrectas. Utiliza las cuentas de demostración.</p>
+          <button type="submit" class="btn btn-primary login-submit">Ingresar <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="credentials-panel"><div class="credentials-head"><div><strong>Cuentas para la exposición</strong><p>El pasajero ingresa directamente sin credenciales.</p></div><span>⌘</span></div>
+          <div class="demo-account"><span>Desarrollador</span><code>desarrollador</code><code>dev123</code></div>
+          <div class="demo-account"><span>Comité</span><code>comite</code><code>comite123</code></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="appScreen" class="app-shell" hidden>
+    <aside class="sidebar" aria-label="Área de trabajo">
+      <div class="brand"><div class="brand-icon" aria-hidden="true">🚌</div><div><strong>RutaFlow<span class="brand-dot">.</span></strong><small>CONTROL DE CAMBIOS</small></div></div>
+      <div class="sidebar-divider"></div><div class="nav-caption">ÁREA DE TRABAJO</div><div class="nav-item active"><span class="nav-ico" aria-hidden="true">▤</span><span id="menuName">Nueva solicitud</span><span class="nav-pip"></span></div>
+      <div class="sidebar-divider soft"></div><div class="role-caption">PERFIL ACTIVO</div><div class="active-account"><span id="roleAvatar" class="role-avatar user-avatar">P</span><div><strong id="sidebarUser">Pasajero</strong><small id="sidebarRole">Acceso público</small></div></div>
+      <div class="sidebar-info"><strong>Información</strong><p id="roleGuidance">Envía tu solicitud para su revisión.</p></div>
+      <div class="sidebar-bottom"><div class="demo-flag"><span class="glow-dot"></span> Demostración local</div><p>La información queda guardada en este navegador. No es un servicio de reservas real.</p><button class="sidebar-logout" id="logoutButton" type="button">↩ Volver al inicio</button></div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><div class="breadcrumbs">Reservas de buses <span>/</span> <strong id="breadcrumbCurrent">Solicitud de cambio</strong></div><div class="top-right"><span class="live-badge"><span></span> Prototipo académico</span><span id="topUser" class="top-user"></span><button class="btn btn-secondary btn-small" id="logoutTop" type="button">Salir</button></div></header>
+      <div class="page-content">
+        <section class="page-heading"><div><div class="eyebrow" id="roleEyebrow">PORTAL DE SOLICITUDES</div><h1 id="pageTitle">Solicitud de cambio</h1><p id="pageSubtitle">Registra un cambio para el sistema de reservas.</p></div><span class="heading-chip" id="headingChip">PASAJERO</span></section>
+
+        <section id="passengerView" class="form-surface" hidden>
+          <div class="surface-heading"><span class="surface-step">01</span><div><h2>Solicitud de cambio · Usuario final</h2><p>Formulario basado en el boceto del usuario solicitante, adaptado al sistema de reservas de buses.</p></div></div>
+          <form id="passengerForm" class="large-form">
+            <div class="form-meta"><span><b>Solicitud:</b> <span id="guestPreviewId">RF-0001</span></span><span><b>Fecha:</b> <span id="guestDate"></span></span></div>
+            <h3 class="form-section-title">01 · INFORMACIÓN GENERAL</h3>
+            <div class="form-grid"><div class="field"><label for="passengerName">Nombre del solicitante <span>*</span></label><input id="passengerName" name="requester" required maxlength="85" placeholder="Ingresa tu nombre completo" autocomplete="name"></div>
+            <div class="field"><label for="passengerContact">Correo electrónico de contacto <span>*</span></label><input id="passengerContact" type="email" name="contact" required maxlength="100" placeholder="correo@ejemplo.com"></div></div>
+            <h3 class="form-section-title">02 · ROL DEL SOLICITANTE</h3>
+            <div class="choice-row" role="group" aria-label="Rol del solicitante"><label class="choice-pill"><input type="radio" name="requesterRole" value="Pasajero" required><span>Pasajero</span></label><label class="choice-pill"><input type="radio" name="requesterRole" value="Comprador de pasaje"><span>Comprador de pasaje</span></label><label class="choice-pill"><input type="radio" name="requesterRole" value="Representante de pasajero"><span>Representante de pasajero</span></label></div>
+            <h3 class="form-section-title">03 · DETALLES DEL CAMBIO</h3>
+            <div class="field"><label for="passengerModule">Módulo del sistema de reservas <span>*</span></label><select id="passengerModule" name="module" required><option value="">Selecciona el módulo afectado</option><option>Reserva y compra de pasajes</option><option>Rutas y destinos</option><option>Horarios de salida</option><option>Asientos y disponibilidad</option><option>Pagos y comprobantes</option><option>Acceso y perfil del pasajero</option><option>Notificaciones</option><option>Otro módulo</option></select></div>
+            <div class="field"><label for="passengerDescription">Descripción del cambio <span>*</span></label><textarea id="passengerDescription" name="description" minlength="12" maxlength="1300" rows="4" required placeholder="Ej. Al reservar un viaje de Ambato a Quito, quiero poder cambiar el asiento antes de pagar..."></textarea></div>
+            <div class="field"><label for="passengerReason">Motivo del cambio <span>*</span></label><textarea id="passengerReason" name="reason" minlength="10" maxlength="1100" rows="4" required placeholder="Explica qué problema tienes o por qué la mejora es necesaria..."></textarea></div>
+            <div class="form-grid"><div class="field"><label for="passengerBenefit">¿Qué mejoraría para los pasajeros? <span>*</span></label><textarea id="passengerBenefit" name="benefits" rows="3" required minlength="8" maxlength="700" placeholder="Ej. Evitar errores al comprar pasajes y ahorrar tiempo..."></textarea></div><div class="field"><label for="passengerNoChange">¿Qué pasaría si no se realiza el cambio? <span>*</span></label><textarea id="passengerNoChange" name="nonImplementation" rows="3" required minlength="8" maxlength="700" placeholder="Ej. Seguirían apareciendo asientos ocupados al pagar..."></textarea></div></div>
+            <div class="field"><label for="passengerReference">Ruta, fecha o código de reserva <span class="optional">(opcional)</span></label><input id="passengerReference" name="reference" maxlength="130" placeholder="Ej. Ambato – Quito / Reserva BUS-1024"></div>
+            <div class="field"><label class="field-caption">Prioridad del cambio <span>*</span></label><div class="choice-row" role="group" aria-label="Prioridad solicitada"><label class="choice-pill"><input type="radio" name="priority" value="Urgente" required><span>Urgente</span></label><label class="choice-pill"><input type="radio" name="priority" value="Alta"><span>Alta</span></label><label class="choice-pill"><input type="radio" name="priority" value="Media"><span>Media</span></label><label class="choice-pill"><input type="radio" name="priority" value="Baja"><span>Baja</span></label></div><small class="field-help">La prioridad es una sugerencia del solicitante; el comité decide si procede el cambio.</small></div>
+            <h3 class="form-section-title">04 · TIPO DE CAMBIO</h3>
+            <div class="choice-grid" role="group" aria-label="Tipo de cambio"><label class="choice-pill"><input type="radio" name="changeType" value="Acceso o permisos" required><span>Acceso o permisos</span></label><label class="choice-pill"><input type="radio" name="changeType" value="Diseño e interfaz"><span>Diseño e interfaz</span></label><label class="choice-pill"><input type="radio" name="changeType" value="Reservas y asientos"><span>Reservas y asientos</span></label><label class="choice-pill"><input type="radio" name="changeType" value="Seguridad y privacidad"><span>Seguridad y privacidad</span></label><label class="choice-pill"><input type="radio" name="changeType" value="Pagos y comprobantes"><span>Pagos y comprobantes</span></label><label class="choice-pill"><input type="radio" name="changeType" value="Otros"><span>Otros</span></label></div>
+            <h3 class="form-section-title">05 · ORIGEN DE LA SOLICITUD DE CAMBIO</h3>
+            <div class="choice-row" role="group" aria-label="Origen de la solicitud"><label class="choice-pill"><input type="radio" name="originType" value="Falla detectada" required><span>Falla detectada</span></label><label class="choice-pill"><input type="radio" name="originType" value="Solicitud de mejora"><span>Solicitud de mejora</span></label></div>
+            <h3 class="form-section-title">06 · DOCUMENTOS O INFORMACIÓN ADICIONAL</h3>
+            <div class="field"><label for="passengerFile">Adjuntar archivo o imagen <span class="optional">(opcional)</span></label><input id="passengerFile" name="attachment" type="file" accept="image/png,image/jpeg,image/webp,application/pdf,text/plain,.txt" aria-describedby="fileHint1"><small id="fileHint1" class="field-help">Captura del problema o documento de respaldo. Máximo 700 KB.</small></div>
+            <div class="form-alert">ℹ No necesitas iniciar sesión. Tu solicitud quedará pendiente de revisión por el comité.</div>
+            <div class="form-actions"><button class="btn btn-secondary" type="reset">Limpiar campos</button><button class="btn btn-primary" type="submit">Enviar solicitud →</button></div>
+          </form>
+        </section>
+
+        <section id="developerView" class="form-surface" hidden>
+          <div class="surface-heading"><span class="surface-step">02</span><div><h2>Solicitud de cambio · Desarrollador</h2><p>Formulario técnico basado en el segundo boceto, contextualizado en la plataforma de reservas de buses.</p></div></div>
+          <form id="developerForm" class="large-form">
+            <div class="form-meta"><span><b>Solicitante:</b> Desarrollador (cuenta de prueba)</span><span><b>Solicitud:</b> <span id="devPreviewId">RF-0001</span></span><span><b>Fecha:</b> <span id="devDate"></span></span></div>
+            <h3 class="form-section-title">01 · IDENTIFICACIÓN Y ROL DEL SOLICITANTE</h3>
+            <div class="form-grid"><div class="field"><label for="devName">Nombre del desarrollador solicitante <span>*</span></label><input id="devName" name="requester" maxlength="90" required placeholder="Ej. Andrea Pérez"></div><div class="field"><label for="devContact">Correo de contacto <span>*</span></label><input id="devContact" name="contact" type="email" maxlength="100" required placeholder="desarrollo@ejemplo.com"></div></div>
+            <div class="choice-row" role="group" aria-label="Especialidad del desarrollador"><label class="choice-pill"><input type="radio" name="developerArea" value="Backend" required><span>Backend</span></label><label class="choice-pill"><input type="radio" name="developerArea" value="Frontend"><span>Frontend</span></label><label class="choice-pill"><input type="radio" name="developerArea" value="DevOps"><span>DevOps</span></label><label class="choice-pill"><input type="radio" name="developerArea" value="QA"><span>QA</span></label><label class="choice-pill"><input type="radio" name="developerArea" value="Infraestructura"><span>Infraestructura</span></label></div>
+            <h3 class="form-section-title">02 · DETALLES DEL CAMBIO</h3>
+            <div class="field"><label for="devModule">Sistema / módulo afectado <span>*</span></label><select id="devModule" name="module" required><option value="">Selecciona el componente funcional</option><option>API de reservas y pasajes</option><option>Frontend de búsqueda de rutas</option><option>Selección y bloqueo de asientos</option><option>Horarios y disponibilidad</option><option>Pasarela de pagos y comprobantes</option><option>Autenticación y usuarios</option><option>Base de datos de viajes</option><option>Notificaciones de reserva</option><option>Infraestructura / despliegue</option><option>Otro módulo</option></select></div>
+            <div class="field"><label for="devDescription">Descripción técnica del cambio <span>*</span></label><textarea id="devDescription" name="description" minlength="12" maxlength="1600" rows="4" required placeholder="Describe la modificación: por ejemplo, impedir la doble venta de un asiento cuando dos usuarios reservan al mismo tiempo..."></textarea></div>
+            <div class="field"><label for="devReason">Justificación técnica y del negocio <span>*</span></label><textarea id="devReason" name="reason" minlength="10" maxlength="950" rows="3" required placeholder="¿Por qué se necesita corregir o mejorar esta función de reservas?"></textarea></div>
+            <div class="form-grid"><div class="field"><label for="devBenefits">Beneficios esperados <span>*</span></label><textarea id="devBenefits" name="benefits" rows="3" required minlength="8" maxlength="750" placeholder="Ej. Reducir fallos de reserva, evitar pagos duplicados..."></textarea></div><div class="field"><label for="devNoChange">Consecuencias de no implementar <span>*</span></label><textarea id="devNoChange" name="nonImplementation" rows="3" required minlength="8" maxlength="750" placeholder="Ej. Continuarán los cobros incorrectos..."></textarea></div></div>
+            <div class="form-grid"><div class="field"><label for="devAreas">Procesos del negocio afectados <span>*</span></label><input id="devAreas" name="businessAreas" maxlength="250" required placeholder="Ej. Venta de pasajes, atención al cliente"></div><div class="field"><label for="devCI">Elementos de configuración afectados (CI) <span>*</span></label><input id="devCI" name="affectedCIs" maxlength="250" required placeholder="Ej. API de asientos, tabla reservas, servicio de pagos"></div></div>
+            <div class="field"><label for="devImpact">Impacto y riesgo estimado <span>*</span></label><textarea id="devImpact" name="impactRisk" minlength="10" maxlength="1300" rows="4" required placeholder="Impacto en reservas activas, disponibilidad de asientos, pagos o base de datos; riesgos de implementación..."></textarea></div>
+            <div class="form-grid"><div class="field"><label class="field-caption">Prioridad del cambio <span>*</span></label><div class="choice-row compact-choices" role="group" aria-label="Prioridad del cambio técnico"><label class="choice-pill"><input type="radio" name="priority" value="Crítica" required><span>Crítica</span></label><label class="choice-pill"><input type="radio" name="priority" value="Alta"><span>Alta</span></label><label class="choice-pill"><input type="radio" name="priority" value="Media"><span>Media</span></label><label class="choice-pill"><input type="radio" name="priority" value="Baja"><span>Baja</span></label></div></div>
+            <div class="field"><label for="devEffort">Esfuerzo estimado (horas) <span>*</span></label><input id="devEffort" name="effortHours" type="number" min="0.5" max="10000" step="0.5" required placeholder="Ej. 12"></div></div>
+            <h3 class="form-section-title">03 · PROPUESTA DE IMPLEMENTACIÓN Y REVERSIÓN</h3>
+            <p class="section-note">Propuesta técnica para que el comité evalúe el cambio. No constituye autorización para modificar producción.</p>
+            <div class="form-grid"><div class="field"><label for="devCost">Costo estimado (USD) <span>*</span></label><input id="devCost" name="costUSD" type="number" min="0" step="0.01" required placeholder="Ej. 120.00, o 0 si no genera costo"></div><div class="field"><label for="devResources">Personal y recursos estimados <span>*</span></label><input id="devResources" name="resources" maxlength="300" required placeholder="Ej. 1 backend, 1 QA; servidor de pruebas"></div></div>
+            <div class="field"><label for="devSchedule">Fecha sugerida de ejecución <span class="optional">(opcional)</span></label><input id="devSchedule" name="proposedSchedule" type="datetime-local"></div>
+            <div class="field"><label for="devMitigation">Medidas para reducir riesgos <span>*</span></label><textarea id="devMitigation" name="mitigation" rows="3" minlength="8" maxlength="1000" required placeholder="Ej. Copia de seguridad y pruebas antes de publicar el ajuste."></textarea></div>
+            <div class="form-grid"><div class="field"><label for="devImplementation">Plan propuesto de implementación <span>*</span></label><textarea id="devImplementation" name="implementationPlan" rows="4" minlength="12" maxlength="1400" required placeholder="Secuencia de pasos para realizar el cambio de forma controlada..."></textarea></div><div class="field"><label for="devRollback">Plan de reversión (rollback) <span>*</span></label><textarea id="devRollback" name="rollbackPlan" rows="4" minlength="12" maxlength="1400" required placeholder="Cómo restaurar la versión anterior si se detectan problemas..."></textarea></div></div>
+            <h3 class="form-section-title">04 · TIPO DE CAMBIO FUNCIONAL</h3>
+            <div class="choice-grid" role="group" aria-label="Tipo de cambio técnico"><label class="choice-pill"><input type="radio" name="changeType" value="Bug / Error" required><span>Bug / Error</span></label><label class="choice-pill"><input type="radio" name="changeType" value="Refactorización"><span>Refactorización</span></label><label class="choice-pill"><input type="radio" name="changeType" value="Base de datos"><span>Base de datos</span></label><label class="choice-pill"><input type="radio" name="changeType" value="Nueva función"><span>Nueva función</span></label><label class="choice-pill"><input type="radio" name="changeType" value="Infraestructura"><span>Infraestructura</span></label><label class="choice-pill"><input type="radio" name="changeType" value="Seguridad"><span>Seguridad</span></label></div>
+            <h3 class="form-section-title">05 · ORIGEN DE LA SOLICITUD DE CAMBIO</h3>
+            <div class="choice-row" role="group" aria-label="Origen del cambio técnico"><label class="choice-pill"><input type="radio" name="originType" value="Incidencia" required><span>Incidencia</span></label><label class="choice-pill"><input type="radio" name="originType" value="Planificado"><span>Planificado</span></label><label class="choice-pill"><input type="radio" name="originType" value="Mejora técnica"><span>Mejora técnica</span></label></div>
+            <h3 class="form-section-title">06 · INFORMACIÓN DE TRAZABILIDAD</h3>
+            <div class="field"><label for="devBranch">ID de tarea / incidencia / rama Git (branch) <span>*</span></label><input id="devBranch" name="traceability" maxlength="170" required placeholder="Ej. RF-ISSUE-24 · feature/validacion-asientos"></div>
+            <div class="field"><label class="field-caption">¿Se han realizado pruebas? <span>*</span></label><div class="choice-row" role="group" aria-label="Pruebas realizadas"><label class="choice-pill"><input type="radio" name="testsPerformed" value="Sí" required><span>Sí</span></label><label class="choice-pill"><input type="radio" name="testsPerformed" value="No"><span>No</span></label></div></div>
+            <div class="field"><label for="devTestNotes">Detalle de pruebas realizadas o pendientes <span class="optional">(opcional)</span></label><textarea id="devTestNotes" name="testNotes" rows="3" maxlength="900" placeholder="Ej. Pruebas de reserva simultánea, regresión del módulo de pagos, validación en entorno de pruebas..."></textarea></div>
+            <h3 class="form-section-title">07 · DOCUMENTOS O INFORMACIÓN ADICIONAL</h3>
+            <div class="field"><label for="devFile">Adjuntar código, logs o diagramas <span class="optional">(opcional)</span></label><input id="devFile" name="attachment" type="file" accept="image/png,image/jpeg,image/webp,application/pdf,text/plain,.txt,.log,.json,.js,.ts,.md" aria-describedby="fileHint2"><small id="fileHint2" class="field-help">Archivo de evidencia técnica. Máximo 700 KB.</small></div>
+            <div class="form-alert">ℹ El comité recibe tu reporte técnico, pero solo el comité puede aprobar o rechazar el cambio.</div>
+            <div class="form-actions"><button class="btn btn-secondary" type="reset">Limpiar campos</button><button class="btn btn-primary" type="submit">Enviar solicitud técnica →</button></div>
+          </form>
+        </section>
+
+        <section id="submissionResult" class="submission-result" aria-live="polite" hidden><span class="result-icon">✓</span><div><strong id="submissionTitle">Solicitud registrada</strong><p id="submissionText"></p></div></section>
+        <section id="committeeView" hidden>
+          <section class="stats" id="stats" aria-label="Resumen de solicitudes"></section>
+          <section class="workspace"><div class="list-panel"><div class="panel-head"><div><h2>Reportes de cambio</h2><p>Solicitudes recibidas de pasajeros y desarrolladores</p></div><span class="list-count" id="listCount">0</span></div><div class="filters"><label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Buscar solicitudes..." aria-label="Buscar solicitudes"></label><select id="statusFilter" aria-label="Filtrar por estado"><option value="all">Todos los estados</option><option value="pendiente">Pendientes</option><option value="aprobada">Aprobadas</option><option value="rechazada">Rechazadas</option></select><select id="priorityFilter" aria-label="Filtrar por prioridad"><option value="all">Todas las prioridades</option><option value="Urgente">Urgente / Crítica</option><option value="Alta">Alta</option><option value="Media">Media</option><option value="Baja">Baja</option></select><select id="functionalFilter" aria-label="Filtrar por tipo funcional"><option value="all">Todos los tipos funcionales</option></select></div><div id="requestList" class="request-list"></div></div><div id="detailPanel" class="detail-panel" aria-live="polite"></div></section>
+          <p class="footnote">La solicitud original permanece como respaldo. El comité completa el análisis RFC, los planes, la clasificación ITIL y la decisión. Los cambios estándar requieren prueba de autorización previa.</p>
+        </section>
+        <p class="footnote">Prototipo académico · Almacenamiento local no auditable ni seguro · La aprobación no ejecuta cambios reales. No utilizar datos personales reales.</p>
+      </div>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

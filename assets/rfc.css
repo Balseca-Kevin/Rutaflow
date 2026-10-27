@@ -1,0 +1,23 @@
+/* Secciones adicionales del RFC: estilos visuales consistentes con RutaFlow v5. */
+.section-note {font-size:12px;color:#607889;margin:-5px 0 18px;line-height:1.55}
+.review-form {margin-top:20px}
+.review-form h4 {font-size:13px;color:#24465c;margin:23px 0 13px;padding:10px 12px;border-left:4px solid #119c8e;background:#f1f8f7;border-radius:0 8px 8px 0}
+.review-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px}
+.review-grid .field{min-width:0;margin-bottom:0}
+.review-grid .wide{grid-column:1/-1}
+.review-form .field label{display:block;font-size:12px;font-weight:800;color:#315166;margin-bottom:7px}
+.review-form .field input,.review-form .field select,.review-form .field textarea{width:100%;padding:11px 12px;border-radius:8px;border:1px solid #d6e2e9;font:inherit;font-size:12px;min-height:43px;color:#274154;background:#fff}
+.review-form .field textarea{min-height:75px;resize:vertical}
+.review-form .field input:focus,.review-form .field textarea:focus,.review-form .field select:focus{outline:2px solid #11a18c;outline-offset:1px}
+.review-form .field small{display:block;margin-top:5px;color:#667d8b;font-size:10px}
+.review-note{padding:12px 14px;border-radius:9px;border:1px solid #cfe5e2;background:#f4fbfa;font-size:11px;line-height:1.65;color:#306c68;margin:14px 0}
+.review-note.alert{background:#fff7ed;border-color:#f3dbb4;color:#805321}
+.review-required{color:#d44a4a}
+.evidence-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 0}
+.evidence-bar .btn{font-size:11px;padding:11px 12px}
+.audit-list{display:grid;gap:9px;margin:9px 0 18px}
+.audit-item{font-size:12px;color:#4a6779;line-height:1.55;padding-left:14px;border-left:3px solid #bed9d4}
+.audit-item b{color:#143748}
+.classification-note{font-size:11px;color:#486475;line-height:1.5;margin-top:8px}
+.check-status{padding:11px 13px;background:#eaf6f2;border-radius:8px;font-size:11px;line-height:1.5;color:#1a6760;margin-top:12px}
+@media(max-width:710px){.review-grid{grid-template-columns:1fr}.review-grid .wide{grid-column:auto}}
