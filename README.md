@@ -18,7 +18,7 @@ Son cuentas ficticias visibles en el login para exposición. No constituyen un m
 
 ## Flujo implementado
 
-**Pasajero** → registra nombre, contacto, rol, módulo de reservas, descripción, motivo, beneficios, consecuencias si no se implementa, prioridad, categoría funcional, origen y evidencia adjunta opcional. El sistema agrega ID y fecha automáticamente. No requiere acceso con cuenta.
+**Pasajero o personal interno** → registra nombre, contacto, rol (pasajero, comprador, representante, oficinista o administrador de cooperativa), módulo de reservas u operación interna, descripción, motivo, beneficios, consecuencias si no se implementa, prioridad, categoría funcional, origen y evidencia adjunta opcional. El sistema agrega ID y fecha automáticamente. No requiere acceso con cuenta.
 
 **Desarrollador** → registra nombre y contacto del iniciador, especialidad, módulo, justificación, beneficios, consecuencias de no cambiar, áreas del negocio y CIs, impacto, riesgo, esfuerzo, costo, recursos, mitigación, propuesta de implementación y reversión, prioridad, tipo funcional, origen, tarea o rama Git, pruebas y adjuntos opcionales.
 
@@ -45,6 +45,12 @@ Un cambio con costo mayor que cero no se puede aprobar con presupuesto pendiente
 5. Completar los bloques del comité (incluido rollback y ventana) y aprobar con justificación.
 6. Abrir otra solicitud y rechazarla indicando el motivo.
 7. Revisar fechas e historial, y exportar el JSON de uno de los reportes.
+
+## Integración prevista con Gran Continental
+
+- Los módulos del formulario incluyen los de operación interna del sistema: venta presencial, revisión de comprobantes, flota y planos de asientos, y administración de usuarios y cooperativas.
+- En el prototipo el rol se elige en el formulario. En Gran Continental se tomará de la sesión (Cliente, Oficinista o Administrador de cooperativa), con las tablas `roles`, `permisos` y `rol_permiso`.
+- `localStorage` se reemplazará por tablas en PostgreSQL mediante Prisma, el ID RF lo generará el servidor y el historial usará la tabla `auditoria`.
 
 ## Alcance y limitaciones
 
